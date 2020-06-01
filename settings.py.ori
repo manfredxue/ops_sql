@@ -30,10 +30,10 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # Extend User
-AUTH_USER_MODEL = 'account.User'
+#AUTH_USER_MODEL = 'account.User'
 
 # Login URL
-LOGIN_URL = '/login/'
+#LOGIN_URL = '/login/'
 
 # Application definition
 
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'account',
-    'cmdb'
+##    'cmdb'
 ]
 
 MIDDLEWARE = [
@@ -95,7 +95,7 @@ DATABASES = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ops',                            #生成数据库ops
+#        'NAME': 'ops',                            #生成数据库ops
         'USER': 'root',
         'PASSWORD': '123456',
         'HOST': '127.0.0.1',
@@ -146,7 +146,7 @@ STATICFILES_DIRS = (
 )
 
 # LDAP
-LDAP = {
-    'host': "127.0.0.1",  # LDAP服务器地址
-    'port': 389  # LDAP端口
+#LDAP = {
+#    'host': "127.0.0.1",  # LDAP服务器地址
+#    'port': 389  # LDAP端口
 }
