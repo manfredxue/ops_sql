@@ -1,0 +1,248 @@
+
+{% extends "base.html" %}  <!--继承base.html母版-->
+{% block content %}        <!--块保护，子版继承母版后保护自己内容正常运行-->
+    {% include "account/modal_users.html" %}   <!--本页包含子页-->
+    <div>
+        <ol class="breadcrumb">
+            <li><a href="/account/users/"><i class="fa fa-dashboard"></i> Home</a></li> <!--点击Home跳转回users-->
+            <li><a href="#">用户和组</a></li>
+            <li class="active">用户管理</li>
+        </ol>
+    </div>
+
+    <div>
+        <div class="col-md-2">  <!--新增按钮，有id-->
+            <button id="add" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span>新增</button>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">   <!--输入框-->
+                <input id="search" type="text" class="form-control" placeholder="用户名">
+                <span class="input-group-btn">   <!--搜索按钮-->
+                    <button id="search_btn" class="btn btn-default" type="button">搜索</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    </br>
+    </br>
+    </br>
+    <div class="page-content col-md-12">
+        <div class="dataTables_scrollBod col-md-12">
+            <table class="table table-striped table-bordered dataTable no-footer table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align:middle;">ID</th>
+                        <th style="vertical-align:middle;">用户名</th>
+                        <th style="vertical-align:middle;">上次登录</th>
+                        <th style="vertical-align:middle;">角色</th>
+                        <th style="vertical-align:middle;">属组</th>
+                        <th style="vertical-align:middle;">超级用户</th>
+                        <th style="vertical-align:middle;">备注</th>
+                        <th style="vertical-align:middle;">操作</th>
+                    </tr>
+                <thead>
+                {% for obj in paginator_data.object_list %}
+                    <tr>
+                        <td style="vertical-align:middle;">{{obj.id}}</td>
+                        <td style="vertical-align:middle;" password="{{obj.password}}">{{obj.username}}</td>
+                        <td style="vertical-align:middle;">{{obj.last_login|date:"Y-m-d H:i:s"}}</td>
+                        {% if obj.role == '1' %}
+                            <td style="vertical-align:middle;">总监</td>
+                        {% elif obj.role == '2' %}
+                            <td style="vertical-align:middle;">经理</td>
+                        {% elif obj.role == '3' %}
+                            <td style="vertical-align:middle;">研发</td>
+                        {% else %}
+                            <td></td>
+                        {% endif %}
+                        <td style="vertical-align:middle;">{{obj.group}}</td>
+                        <td style="vertical-align:middle;">{{obj.is_superuser}}</td>
+                        <td style="vertical-align:middle;">{{obj.remark}}</td>
+                        <td style="vertical-align:middle;">      <!--编辑按钮，有class-->
+                            <button class="btn btn-danger btn-xs delete"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+                            <button class="btn btn-warning btn-xs update"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div>
+            {% if paginator_data.has_previous %}
+                <a class='paginator' href='?page={{ paginator_data.previous_page_number }}&search={{search}}'><span>上一页</span></a>
+            {% endif %}
+
+            {% for page in paginator_data.paginator.page_range %}
+                {% if paginator_data.number == page %}
+                    <span id="current_page">{{ page }}</span>
+                {% else %}
+                    <a class='paginator' href='?page={{ page }}&search={{search}}' title='{{ page }}'><span>{{ page }}</span></a>
+                {% endif %}
+            {% endfor %}
+
+            {% if paginator_data.has_next %}
+                <a class='paginator' href='?page={{ paginator_data.next_page_number }}&search={{search}}'><span>下一页</span></a>
+            {% endif %}
+        </div>
+
+    </div>
+
+ <script>
+
+     // 数据转换函数
+     function handle_role(tag) {    //定义角色
+        tag_map = {     //标签表格
+            '总监':'1',
+            '经理':'2',
+            '研发':'3'
+        }
+        return tag_map[tag]
+     }
+
+     function handle_superuser(tag) {   //定义是否超级用户
+        tag_map = {     //标签表格
+            '是':'1',
+            '否':'0',
+            'True':'是',
+            'False':'否'
+        }
+        return tag_map[tag]
+     }
+
+    // 页面打开即请求group数据
+     $(document).ready(function() {
+        $.ajax({
+            type: 'get',                    //从前端请求数据
+            url: '/account/api_groups/',
+            data: '',
+            dataType: 'json',
+            success: function(result){     //向后端返回数据result与前端data相反
+                data = result.data         //前端传入数据，(处理)返回前端
+                options = ''
+                for (item of data) {
+                    option = '<option id="' + item.id +'">' + item.name + '</option>'  //group.id加入option
+                    options += option
+                }
+                $('#create_user_group').append(options)          //模态框中输入框中添加下拉菜单选项
+                $('#modal_create').attr('select_options', options)  //模态框的选项框属性设为选项值
+            },
+        })
+     });
+
+    //点击新增按钮弹出模态框
+     $('#add').click(function () {
+         $('#modal_create').modal()
+     })
+
+     // 点击模态框的 创建 按钮
+     $('#create').click(function(){
+         group_name = $('#create_user_group').val()
+         role = $('#create_role').val()
+         username = $.trim($('#create_username').val())
+         password = $.trim($('#create_password').val())
+         is_superuser = $('#create_superuser').val()
+         remark = $.trim($('#create_remark').val())
+         role = handle_role(role)
+         is_superuser = handle_superuser(is_superuser)
+         data = {group_name:group_name, role:role, username:username, password:password, is_superuser:is_superuser, remark:remark}
+         $.ajax({
+             type: "post",    //请求类型HTTP中get请求，put修改，post创建，delete删除
+             url: '/account/users/',
+             data: data,
+             dataType: "json",
+             success: function(result){
+                 console.log(result)
+                 status = result.status
+                 if (status == 1) {            //执行成功
+                     location.reload()
+                 } else if (status == -1) {    //错误1：用户名重复
+                     alert('用户名重复')
+                 } else if (status == -2) {    //错误2：其他错误
+                     msg = result.msg
+                     alert(msg)
+                 }
+             },
+         })
+     })
+
+     // 点击列表页的 修改 按钮
+    $('.update').click(function () {   //根据CSS定义不同方式，通过找到通过class: $('.classname')找到
+        $('#modal_update').modal()
+        id = $.trim($(this).parents("tr").children("td").eq(0).text()) //取本修改按钮所在行的父父元素tr表行的子元素表列td为0的文本内容
+        username = $.trim($(this).parents("tr").children("td").eq(1).text())
+        password = $(this).parents("tr").children("td").eq(1).attr('password')
+        role = $.trim($(this).parents("tr").children("td").eq(3).text())
+        group = $.trim($(this).parents("tr").children("td").eq(4).text())
+        is_superuser = $.trim($(this).parents("tr").children("td").eq(5).text())
+        remark = $.trim($(this).parents("tr").children("td").eq(6).text())
+        is_superuser = handle_superuser(is_superuser)
+        options = $('#modal_create').attr('select_options')  //模态框的选项框属性选定值
+        $('#update_id').attr('value', id)
+        $('#update_user_group').empty()   //编辑框的属性值在赋值前必须清空，否则会不停累加变量
+        $('#update_user_group').append(options)  //仅最新的选定值追加到编辑框
+        $('#update_user_group').attr('value', group) //赋值
+        $('#update_role').attr('value', role)
+        $('#update_username').attr('value', username)
+        $('#update_password').attr('value', password)
+        $('#update_superuser').attr('value', is_superuser)
+        $('#update_remark').attr('value', remark)
+    })
+
+     // 点击模态框的 保存 按钮
+     $('#update').click(function () {    //通过找到id: $('#id')
+         id = $('#update_id').val()      //选项框选中值获值
+         group_name = $('#update_user_group').val()
+         role = $('#update_role').val()
+         username = $('#update_username').val()
+         password = $('#update_password').val()
+         is_superuser = $('#update_superuser').val()
+         remark = $('#update_remark').val()
+         role = handle_role(role)
+         is_superuser = handle_superuser(is_superuser)
+         data = {group_name:group_name, role:role, username:username, password:password, is_superuser:is_superuser, remark:remark}
+         $.ajax({
+             type: "put",
+             url: '/account/users/' + id,
+             data: data,
+             dataType: "json",
+             success: function(result){
+                 console.log(result)
+                 status = result.status
+                 if (status == 1) {           //执行成功
+                     location.reload()
+                 } else if (status == -1) {  //错误1：用户名重复
+                     alert('用户名重复')
+                 } else if (status == -2) {  //错误2：其他错误
+                     msg = result.msg
+                     alert(msg)
+                 }
+             },
+         })
+     })
+
+     // 点击列表页 删除按钮
+     $('.delete').click(function () {  //通过找到通过class: $('.classname')找到
+         var id = $.trim($(this).parents("tr").children("td").eq(0).text())  //取值id
+         $.ajax({
+             type: "delete",
+             url: '/account/api_groups/' + id,
+             data: {},
+             dataType: "json",
+             success: function(result){
+                 console.log(result)
+             },
+         })
+     })
+
+     // 点击搜索按钮
+     $('#search_btn').click(function () {
+         var search = $('#search').val()
+         window.location.href = "/account/users/?search=" + search  //当前页面打开URL页面
+     })
+
+ </script>
+
+{% endblock %}
+

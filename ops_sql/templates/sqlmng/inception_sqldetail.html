@@ -1,0 +1,94 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+{% include 'sqlmng/modal.html' %}
+
+<style>
+.font17 {font-size:15px;font-weight:bold;width:100px;background:#4682B4}
+.font17contentleft {width:25%;}
+.host_detail_tag {font-size:14px;font-weight:bold;color:#4682B4}
+</style>
+
+ <div class="breadcrumbs urltag" desc_value="detail" sqlid="{{id}}">
+    <ul class="breadcrumb">
+        <li>
+	<i class="icon-home home-icon"></i>
+        <a href="#">Home</a>
+        </li>
+
+        <li>
+        <a href="#">运维工具</a>
+        </li>
+
+        <li>
+        <a href="#">SQL上线审核系统</a>
+        </li>
+
+	<li>
+        <a href='#'>SQL上线列表</a>
+	</li>
+
+        <li class="active">SQL详情页</li>
+
+    </ul>
+ </div>
+
+  <div class="page-content" style="margin-left:16px">
+	  </br>
+	  <span class="host_detail_tag">SQL基本信息</span>
+          <div class="dataTables_scrollBod" style="width:80%">
+              <table class="table table-bordered dataTable no-footer table-condensed ">
+                  <thead></thead>
+                  <tbody>
+                  <tr>
+                      <td class="font17">提交时间</td>
+                      <td class="font17contentleft">{{create_time|date:"Y-m-d H:i:s"}}</td>
+                      <td class="font17">提交人</td>
+                      <td>{{committer}}</td>
+                  </tr>
+                  <tr>
+                      <td class="font17">环境</td>
+                      {% if env == 2 %}
+                          <td class="font17contentleft"><small class="label bg-green">测试</small></td>
+                      {% elif env == 1 %}
+                          <td class="font17contentleft"><small class="label bg-blue">生产</small></td>
+                      {% endif %}
+                      <td class="font17">执行人</td>
+                      <td>{{treater}}</td>
+                  </tr>
+                  <tr>
+                      <td class="font17">数据库</td>
+                      <td class="font17contentleft">{{db_name}}</td>
+                      <td class="font17">状态</td>
+                      {% if status == -2 %}
+                          <td> <img src="/static/imgs/images/sqlmanage/rollback.gif"> 已回滚</td>
+                      {% elif status == -1 %}
+                          <td> <img src="/static/imgs/images/sqlmanage/forexcute.png"> 待执行</td>
+                      {% elif status == 0 %}
+                          <td> <img src="/static/imgs/images/sqlmanage/excuted.png"> 已执行</td>
+                      {% elif status == 1 %}
+                          <td> <img src="/static/imgs/images/sqlmanage/canceled.png"> 已放弃</td>
+                      {% endif %}
+                  </tr>
+                  <tr>
+                      <td class="font17">语法检查</td>
+                      <td class="font17contentleft">
+                          <img src="/static/imgs/images/sqlmanage/reviewok.png" width="22px" height="22px"> 通过
+                      </td>
+                      <td class="font17">备注</td>
+                      <td>{{remark}}</td>
+                  </tr>
+                  </tbody>
+              </table>
+          </div>
+      </br>
+      <span class="host_detail_tag">SQL语句</span>
+      <div style="max-height:280px; overflow:auto">
+          {{sql_content}}
+      </div>
+      </br>
+  </div>
+
+{% endblock %}
+

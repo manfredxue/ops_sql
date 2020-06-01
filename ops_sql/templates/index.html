@@ -1,0 +1,164 @@
+<!-- extend from base layout -->   <!--展示首页包括顶栏左侧栏用户鉴权-->
+{% extends "base.html" %}          <!--继承base.html母版-->
+{% block title %}首页{% endblock %}  <!--块保护，子版继承母版后保护自己内容正常运行-->
+{% block content %}                <!--块保护，子版继承母版后保护自己内容正常运行-->
+<body class="hold-transition skin-blue sidebar-mini">
+
+
+<div class="wrapper">
+
+  <header class="main-header">
+
+    <!-- Logo -->
+    <a href="#" class="logo" style="position: fixed;">
+      <!-- logo for regular state and mobile devices -->
+      <span class="logo-lg">U2</span>
+    </a>
+
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="navbar-custom-menu">
+	<ul class="nav navbar-nav">
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <!--  <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
+              <span class="hidden-xs">Welcome! <b>{{request.user.username}}</b></span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+              <!--  <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"> -->
+              {% if request.user.groups.first %}
+		        <p> 组：{{request.user.groups.first}} </p>
+              {% else %}
+		        <p> 组：无 </p>
+              {% endif %}
+
+              {% if request.user.is_superuser %}     //用户鉴权
+                <p> 角色：超级用户 </p>
+              {% else %}
+                {% if request.user.userprofile.role == '0' %}
+		            <p> 角色：无 </p>
+                {% elif request.user.userprofile.role == '1' %}
+		            <p> 角色：总监 </p>
+                {% elif request.user.userprofile.role == '2' %}
+		            <p> 角色：经理 </p>
+                {% elif request.user.userprofile.role == '3' %}
+		            <p> 角色：研发 </p>
+                {% endif %}
+              {% endif %}
+
+              </li>
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="#" class="btn btn-default btn-flat">Profile</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/logout/" class="btn btn-default btn-flat">退出</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <!-- Control Sidebar Toggle Button -->
+         <!-- <li>
+            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+          </li> -->
+
+	</ul>
+      </div>
+    </nav>
+  </header>
+  <!-- Left side column. contains the logo and sidebar -->
+  <aside class="main-sidebar" style="position: fixed;">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+        <li class="header" style="font-weight:blod;">产品技术运维中心</li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-tasks"></i>
+            <span>SQL审核平台</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle"></i><span>sql上线</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+            	    <li class="ckli"><a href="/sqlmng/inception_check/" target="mainPage"><i class="fa fa-circle-o"></i>审核</a></li>
+            	    <li class="ckli"><a href="/sqlmng/inception_result/" target="mainPage"><i class="fa fa-circle-o"></i>处理</a></li>
+                </ul>
+            </li>
+
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-circle"></i><span>sql优化</span>
+                    <span class="pull-right-container">
+                      <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="ckli"><a href="/sqlmng/optimize_check/" target="mainPage"><i class="fa fa-circle-o"></i>提交</a></li>
+                </ul>
+            </li>
+
+            {% if request.user.is_superuser %}   //用户鉴权
+            <li class="treeview">
+                <a href="/sqlmng/dbconfig/" target="mainPage">
+                    <i class="fa fa-circle"></i><span>数据库配置</span>
+                </a>
+            </li>
+            {% endif %}
+          </ul>
+        </li>
+
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-tasks"></i>
+            <span>用户和组</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+          	<li class="ckli"><a href="/account/users/" target="mainPage"><i class="fa fa-circle-o"></i>用户</a></li>
+          	<li class="ckli"><a href="/account/groups/" target="mainPage"><i class="fa fa-circle-o"></i>组</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>
+
+  <div class="content-wrapper">
+      <div style="margin-left:1%; margin-right:1%">
+      <!-- 去掉滚动条-->
+          <iframe src="/sqlmng/inception_check/"  id="mainPage" name="mainPage" style="width:100%; height:1200px; border:none;" frameborder="0"> </iframe>
+      </div>
+  </div>
+
+<script>
+
+$(".ckli").click(function(){
+  // 点击li添加样式，然后再点击同级的li再移除样式... , siblings() 获得匹配集合中每个元素的同胞
+   $(this).addClass('active').siblings().removeClass('active')
+});
+
+</script>
+</div>
+</body>
+{% endblock %}
+

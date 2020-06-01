@@ -1,0 +1,184 @@
+
+{% extends "base.html" %}
+{% block content %}
+    {% include "account/modal_groups.html" %}
+    <div>
+        <ol class="breadcrumb">
+            <li><a href="/account/users/"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">用户和组</a></li>
+            <li class="active">组管理</li>
+        </ol>
+    </div>
+
+    <div>
+        <div class="col-md-2">
+            <button id="add" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-plus"></span>新增</button>
+        </div>
+
+        <div class="col-md-4">
+            <div class="input-group">
+                <input id="search" type="text" class="form-control" placeholder="组名">
+                <span class="input-group-btn">
+                    <button id="search_btn" class="btn btn-default" type="button">搜索</button>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    </br>
+    </br>
+    </br>
+    <div class="page-content col-md-12">
+        <div class="dataTables_scrollBod col-md-12">
+            <table class="table table-striped table-bordered dataTable no-footer table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th style="vertical-align:middle;">ID</th>
+                        <th style="vertical-align:middle;">组名</th>
+                        <th style="vertical-align:middle;">组的用户</th>
+                        <th style="vertical-align:middle;">操作</th>
+                    </tr>
+                <thead>
+                {% for obj in paginator_data.object_list %}
+                    <tr>
+                        <td style="vertical-align:middle;">{{obj.id}}</td>
+                        <td style="vertical-align:middle;">{{obj.name}}</td>
+                        <td style="vertical-align:middle;">
+                            <button class="btn btn-info btn-xs show">查看（{{ obj.user_set.count }}）</button>
+                        </td>
+                        <td style="vertical-align:middle;">
+                            <button class="btn btn-danger btn-xs delete"><span class="glyphicon glyphicon-remove"></span> 删除</button>
+                            <button class="btn btn-warning btn-xs update"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        <div>
+            {% if paginator_data.has_previous %}
+                <a class='paginator' href='?page={{ paginator_data.previous_page_number }}&search={{search}}'><span>上一页</span></a>
+            {% endif %}
+
+            {% for page in paginator_data.paginator.page_range %}
+                {% if paginator_data.number == page %}
+                    <span id="current_page">{{ page }}</span>
+                {% else %}
+                    <a class='paginator' href='?page={{ page }}&search={{search}}' title='{{ page }}'><span>{{ page }}</span></a>
+                {% endif %}
+            {% endfor %}
+
+            {% if paginator_data.has_next %}
+                <a class='paginator' href='?page={{ paginator_data.next_page_number }}&search={{search}}'><span>下一页</span></a>
+            {% endif %}
+        </div>
+
+    </div>
+
+ <script>
+
+    // 点击列表页 新增 按钮
+     $('#add').click(function () {
+         $('#modal_create').modal()
+     })
+
+    // 点击模态框的 创建 按钮
+     $('#create').click(function(){
+         var name = $.trim($('#create_name').val())
+
+         $.ajax({
+             type: "post",
+             url: '/account/groups/',
+             data: {name:name},
+             dataType: "json",
+             success: function(data){
+                var status = data.status
+                if (status == -1){
+                    alert('组已存在')
+                }
+                else if (status == 1){
+                    location.reload()
+                }
+             },
+        })
+     })
+
+     // 点击列表页的 修改 按钮
+     $('.update').click(function () {
+         $('#modal_update').modal()
+         var id = $.trim($(this).parents("tr").children("td").eq(0).text())
+         var name = $.trim($(this).parents("tr").children("td").eq(1).text())
+         $('#update_id').attr('value', id)
+         $('#update_name').attr('value', name)
+     })
+
+     // 点击模态框的 保存 按钮
+     $('#update').click(function () {
+         var id = $('#update_id').val()
+         var name = $('#update_name').val()
+         $.ajax({
+             type: "put",
+             url: '/account/groups/' + id,
+             data: {name:name},
+             dataType: "json",
+             success: function(result){
+                 console.log(result)
+                 status = result.status
+                 if ( status == 1 ){
+                     location.reload()
+                 } else if (status == -1) {
+                     alert('组重复')
+                 }
+             },
+         })
+     })
+
+    // 点击列表页 删除按钮
+     $('.delete').click(function () {
+         var id = $.trim($(this).parents("tr").children("td").eq(0).text())
+         $.ajax({
+             type: "delete",
+             url: '/account/groups/' + id,
+             data: {},
+             dataType: "json",
+             success: function(result){
+                 if ( result.status == 1 ){
+                     location.reload()
+                 }
+             },
+         })
+     })
+
+    // 点击列表页的 查看 按钮
+    $('.show').click(function () {
+        var id = $.trim($(this).parents("tr").children("td").eq(0).text())
+        $('#modal_show').modal()
+        $.ajax({
+             type: "get",
+             url: '/account/api_groups/' + id,
+             data: {},
+             dataType: "json",
+             success: function(result){
+                 groupname = result.data.name
+                 users = result.data.users
+                 html_users = ''
+                 for (user of users) {
+                     html_users += '<li>' + user.username + '</li>'
+                 }
+                 $('#show_users').html(html_users)
+                 $('#show_name').attr('value', groupname)
+             },
+         })
+
+    })
+
+    // 点击搜索按钮
+    $('#search_btn').click(function () {
+        var search = $('#search').val()
+        window.location.href = "/account/groups/?search=" + search
+    })
+
+ </script>
+
+{% endblock %}
+

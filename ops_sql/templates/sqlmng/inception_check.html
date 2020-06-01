@@ -1,0 +1,201 @@
+
+{% extends "base.html" %}
+
+{% block title %}SQL上线系统{% endblock %}
+
+{% block content %}
+{% include 'sqlmng/modal.html' %}
+
+<div class="breadcrumbs" id="breadcrumbs">        
+
+    <ul class="breadcrumb">
+        <li>
+        <i class="icon-home home-icon"></i>
+        <a href="#">Home</a>
+        </li>
+
+        <li>
+        <a href="#">运维工具</a>
+        </li>
+
+        <li>
+        <a href="#">SQL上线审核系统</a>
+        </li>
+
+        <li class="active">SQL上线审核</li>
+    </ul><!-- .breadcrumb -->
+
+</div>
+
+<div class="page-content">
+
+<div class="row">
+    <div class="col-md-12">
+	<div class="panel panel-primary">
+		<div class="panel-heading">请输入需要上线的SQL语句</div>
+		<div class="panel-body">
+			<div class="col-sm-7">
+				<textarea id="sql_content" style="margin-bottom:20px" placeholder="SQL语句" class="col-xs-10 col-sm-12" rows="12"></textarea>
+				<input id="remark" type="text" class="form-control" placeholder="备注" />
+			</div>
+			<div class="col-sm-5">
+				<div>
+                    <div class="col-sm-2"> 
+					    <span style="font-size:16px; color:#4682B4; font-weight:bold "> 环境 </span>
+                    </div>
+                    <div class="col-sm-7">
+					    <label style="margin-right:20%">
+						    <input value="2" name="form-field-radio" type="radio" class="ace" />
+						    <span class="lbl"> 测试</span>
+					    </label>
+					    <label>
+						    <input value="1" name="form-field-radio" type="radio" class="ace" />
+					    	<span class="lbl"> 生产</span>
+				    	</label>
+                    </div>
+				</div>
+	            </br>
+	            </br>
+				<div>
+                    <div class="col-sm-2"> <span style="font-size:16px; color:#4682B4; font-weight:bold" >数据库</span> </div>
+					<div class="col-sm-7">
+						<select id='db_name' class="form-control" >
+						</select>
+					</div>
+				</div>
+                </br>
+                </br>
+                </br>
+				<div>
+                    <div class="col-sm-2"> <span style="font-size:16px; color:#4682B4; font-weight:bold" >执行人 </span></div>
+                    <div class="col-sm-7">
+					    <select id='treater' class="form-control">
+					    </select>
+                    </div>
+				</div>
+			</div>
+		</div>
+
+    <div class="clearfix form-actions">
+      <div class="col-md-offset-0 col-md-12" style="margin-left:15%">
+        <button id='check' style="margin-top:20px" class="btn btn-info" type="submit">
+            <i class="icon-ok bigger-110"></i>
+            提交
+        </button>
+        <button style="margin-top:20px; margin-left:15%" class="btn reset">
+            <i class="icon-undo bigger-110"></i>
+            清空
+        </button>
+      </div>
+    </div>
+
+<!--  </form> -->
+</br></br>
+
+	        </div>
+	    </div>
+	</div>
+    </div>
+
+<script>
+
+$('.ace').change(function(){
+    var env = $('input[name="form-field-radio"]').filter(':checked').val()
+    $.ajax({
+        type: "post",
+        url: "/sqlmng/autoselect/",               //选择测试或生产库，跳转默认数据库和执行人
+        data: {env:env},
+        dataType: "json",
+        success: function(data){
+            //业务逻辑
+            dbs = data.dbs
+            owner = data.owner
+            treater_list = data.treater_list
+            $('#db_name').empty()  // 清空select
+            $('#treater').empty()  // 清空执行人
+            for(db of dbs) {
+                option = '<option>' + db + '</option>'  // 生成数据
+                $('#db_name').append(option)  // 给模态框渲染db_name数据
+            }
+            for(treater of treater_list) {
+                option = '<option>' + treater + '</option>'  // 生成执行人选项
+                $('#treater').append(option)  // 给模态框渲染manager数据，//模态框中输入框中添加下拉菜单选项
+            }
+        },
+	})
+})
+
+$('.reset').click(function(){         //重置清空按钮
+	$('#sql_content').val('')
+})
+
+$('#check').click(function(){        //提交按钮
+	var env = $('input[name="form-field-radio"]').filter(':checked').val()   //单选钮
+	var sql_content = $.trim($('#sql_content').val())
+	var db_name = $('#db_name').val()
+	var treater = $('#treater').val()
+	var remark = $.trim($('#remark').val())
+    if (env == null){
+        $('#modal_info').modal()
+		$('#modal_info_content').html('Warning：请选择环境')
+        return false
+    }
+
+	if (sql_content == ''){
+		$('#modal_info').modal()
+		$('#modal_info_content').html('Warning：SQL输入不能为空！')
+		return false
+	}
+	if (remark == ''){
+	    $('#modal_info').modal()
+        $('#modal_info_content').html('Warning：备注不能为空！')
+        return false
+    }
+	if (db_name == null){
+        $('#modal_info').modal()
+        $('#modal_info_content').html('Wrning：请先添加数据库')
+		return false
+	}
+    if (treater == null){
+        $('#modal_info').modal()
+        $('#modal_info_content').html('Warning：请先添加执行人员')
+        return false
+    }
+    $('.btn').attr({"disabled":"disabled"})  // 所有按钮禁用
+    $.ajax({
+        type: "post",
+        url: "{% url 'inception_check' %}",
+        data: {sql_content:sql_content, db_name:db_name, treater:treater, remark:remark, env:env},
+        dataType: "json",
+        success: function(result){
+            console.log(result)
+            $('.btn').removeAttr("disabled")  // 所有按钮启用
+            status = result.status
+            if(status == 0){
+                $('#modal_info').modal()
+                $('#modal_info_title').html('SQL审核结果')
+                $('#modal_info_content').html('SQL语法审核通过！请等待 ' + treater + ' 执行')
+            }
+            else if(status == '-1'){
+                $('#modal_info').modal()
+                $('#modal_info_title').html('SQL审核结果')
+                $('#modal_info_content').html('错误信息：' + ret.fword + ' 已禁用')
+            }
+            else{
+                msg = result.msg
+                msghtml = ''
+                for (i in msg){
+                    msghtml += '<div>' + msg[i] + '</div>'
+                }
+                $('#modal_info').modal()
+                $('#modal_info_title').html('SQL审核结果')
+                $('#modal_info_content').html('错误信息：' + msghtml)
+            }
+        },
+    })
+})
+
+</script>
+
+{% endblock %}
+

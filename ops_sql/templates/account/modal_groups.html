@@ -1,0 +1,115 @@
+
+<!-- 新增 -->
+<div class="modal fade" id='modal_create'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+    	<div class="modal-header" style="background:#836FFF; color:white">
+			<i class="fa fa-info-circle"></i>
+            <span style="font-weight:bold">新增组</span>
+	  		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div>
+          <form class="form-horizontal" onsubmit="return false;">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"><span style="color:red; margin-right:10px">*</span>组名</label>
+                  <div class="col-sm-8">
+                      <input id="create_name" type="text" class="form-control" placeholder=""/>
+                  </div>
+                </div>
+
+              </div>
+          </form>
+         </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default modalbtn cancelbtn" data-dismiss="modal">取消</button>
+        <button type="button" id="create" class="btn btn-primary modalbtn surebtn">创建</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- 修改 -->
+<div class="modal fade" id='modal_update'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+    	<div class="modal-header" style="background:#836FFF; color:white">
+			<i class="fa fa-info-circle"></i>
+            <span style="font-weight:bold">修改组</span>
+	  		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div>
+          <form class="form-horizontal" onsubmit="return false;">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"><span style="color:red; margin-right:10px">*</span>ID</label>
+                  <div class="col-sm-8">
+                      <input id="update_id" type="text" class="form-control" placeholder="" readonly="readonly" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"><span style="color:red; margin-right:10px">*</span>组名</label>
+                  <div class="col-sm-8">
+                      <input id="update_name" type="text" class="form-control" placeholder=""/>
+                  </div>
+                </div>
+
+              </div>
+          </form>
+         </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default modalbtn cancelbtn" data-dismiss="modal">取消</button>
+        <button type="button" id="update" class="btn btn-primary modalbtn surebtn">保存</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<!-- 显示组成员 -->
+<div class="modal fade" id='modal_show'>
+  <div class="modal-dialog">
+    <div class="modal-content">
+    	<div class="modal-header" style="background:#836FFF; color:white">
+			<i class="fa fa-info-circle"></i>
+            <span style="font-weight:bold">组的用户</span>
+	  		<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div>
+          <form class="form-horizontal" onsubmit="return false;">
+              <div class="box-body">
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"><span style="color:red; margin-right:10px">*</span>组名</label>
+                  <div class="col-sm-8">
+                      <input id="show_name" type="text" class="form-control" placeholder="" readonly="readonly" />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-3 control-label"><span style="color:red; margin-right:10px">*</span>组成员</label>
+                  <div class="col-sm-8" style="margin-top:5px ; height:300px; overflow:auto">
+                      <ul id="show_users"></ul>
+                  </div>
+                </div>
+
+              </div>
+          </form>
+         </div>
+
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default modalbtn cancelbtn" data-dismiss="modal">取消</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

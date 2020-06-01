@@ -1,0 +1,58 @@
+
+<style>
+    .modalbtn {margin-right:25%}
+    .cancelbtn {float:left; margin-left:10%}
+    .surebtn {float:right; margin-right:10%}
+</style>
+
+<div class="modal fade" id='modal_info'>
+  <div class="modal-dialog" style="width:40%">
+    <div class="modal-content">
+    	<div class="modal-header" style="background:#0080FF; color:white">
+			<i class="fa fa-info-circle"></i>
+            <span id="modal_info_title" style="font-weight:bold">服务器提示</span>
+        </div>
+      <div id="modal_info_content" class="text" style="overflow-y:scroll; text-align:center; max-height:400px; margin-top:10px; margin-left:10px; margin-bottom:10px">
+      </div>
+    <div class="modal-footer" style="display: table; width: auto;margin-left: auto; margin-right: auto;">
+        <button id="modal_info_close" type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+    </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id='modal_action'>
+  <div class="modal-dialog" style="width:80%">
+    <div class="modal-content">
+    	<div class="modal-header" style="background:#0080FF; color:white">
+			<i class="fa fa-info-circle"></i>
+            <span id="modal_action_title" style="font-weight:bold">服务器提示</span>
+        </div>
+      <div id="modal_action_content" class="text" style="overflow-y:scroll; max-height:400px; margin-top:10px; margin-left:10px; margin-bottom:10px">
+
+      </div>
+    <div class="modal-footer" style="display: table; width: auto;margin-left: auto; margin-right: auto;">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+    </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div class="modal fade" id='action'>
+  <!-- 在"modal-dialog"设置模态框的宽和高 -->
+  <div class="modal-dialog" style="height:50%; width:40%">
+    <div class="modal-content">
+      <div class="modal-header">
+          <i class="fa fa-info-circle"></i>
+          <span id="infotitle" style="font-weight:bold">SQL操作</span>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div id='actioncontent' class="modal-body" style="text-align:center;">
+      </div>
+      <div class="modal-footer">
+        <button type="button" id='actionsave' class="btn btn-primary">确定</button>
+        <button type="button" id='actioncancel' class="btn" data-dismiss="modal" style="margin-left:20%; margin-right:20%">取消</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

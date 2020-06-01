@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="d3e701b3-ce56-43da-8f25-a1d73e1c7e54" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+  </component>
+  <component name="ProjectId" id="1b2h83WlrqgIxngAmq4DSqazvzr" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/manage.py" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunManager">
+    <configuration name="ops_sql" type="Python.DjangoServer" factoryName="Django server">
+      <module name="ops_sql" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="ops.settings" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8003" />
+      <option name="host" value="192.168.110.32" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="http://192.168.110.32:8003/" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d3e701b3-ce56-43da-8f25-a1d73e1c7e54" name="Default Changelist" comment="" />
+      <created>1587835932767</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1587835932767</updated>
+      <workItem from="1587835933984" duration="3802000" />
+      <workItem from="1587879864431" duration="37868000" />
+      <workItem from="1587973344728" duration="12731000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="312" y="88" key="#Deployment" timestamp="1587839238210">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="312" y="88" key="#Deployment/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1587839238210" />
+    <state x="174" y="85" width="1092" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1587839183009">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="174" y="85" width="1092" height="761" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1587839183009" />
+    <state x="428" y="11" key="#ops_sql" timestamp="1587837133989">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="428" y="11" key="#ops_sql/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1587837133989" />
+    <state x="454" y="191" key="EnvironmentVariablesDialog" timestamp="1587838924491">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="454" y="191" key="EnvironmentVariablesDialog/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1587838924491" />
+    <state x="500" y="171" key="FileChooserDialogImpl" timestamp="1587838372052">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="500" y="171" key="FileChooserDialogImpl/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1587838372052" />
+    <state width="1397" height="222" key="GridCell.Tab.0.bottom" timestamp="1588006300419">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1397" height="222" key="GridCell.Tab.0.bottom/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1588006300419" />
+    <state width="1397" height="222" key="GridCell.Tab.0.center" timestamp="1588006300419">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1397" height="222" key="GridCell.Tab.0.center/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1588006300419" />
+    <state width="1397" height="222" key="GridCell.Tab.0.left" timestamp="1588006300418">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1397" height="222" key="GridCell.Tab.0.left/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1588006300418" />
+    <state width="1397" height="222" key="GridCell.Tab.0.right" timestamp="1588006300419">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state width="1397" height="222" key="GridCell.Tab.0.right/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1588006300419" />
+    <state x="221" y="72" key="SettingsEditor" timestamp="1587839274491">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="221" y="72" key="SettingsEditor/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1587839274491" />
+    <state x="461" y="160" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration" timestamp="1587838511862">
+      <screen x="0" y="0" width="1440" height="860" />
+    </state>
+    <state x="461" y="160" key="com.jetbrains.plugins.remotesdk.ui.RemoteMappingsConfiguration/0.0.1440.860/1440.0.1440.860@0.0.1440.860" timestamp="1587838511862" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/account/admin.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/sqlmng/views.py</url>
+          <line>1</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
